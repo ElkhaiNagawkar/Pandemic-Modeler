@@ -20,7 +20,7 @@ public class Pandemic_Modeler extends JFrame
 	String[]populationArray = {
       "100", "200", "300", "400", "500", "1000", "2000", "3000", "4000", "5000"
 		};
-	private int numNoVax, numOneVax, numTwoVax, numThreeVax, numNatural, numPop;
+	private int perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop;
 	Container errorPane;
 	
 	public Pandemic_Modeler(){
@@ -50,20 +50,34 @@ public class Pandemic_Modeler extends JFrame
 				String boxValue = (String)populationBox.getSelectedItem();				
 				//Try checking if the box value is a number
 				try {
-					numPop = Integer.parseInt(boxValue);
+					perPop = Integer.parseInt(boxValue);
 					
-					int checkPercentage = numNoVax + numOneVax + numTwoVax + numThreeVax + numNatural;
+					int checkPercentage = perNoVax + perOneVax + perTwoVax + perThreeVax + perNatural;
 					//Check if percentage does not equal 100. If it does not equal 100 it means more percent needs to be added
 					if(checkPercentage != 100) {
 						JOptionPane.showMessageDialog(errorPane, "Percentage either exceedes or is lower than 100%\nCurrent Percentage:" + checkPercentage + "%");
 						return;
 					}
 					
-					//This will open a new frame where the simulation will happen
-					Simulation_Frame simFrame = new Simulation_Frame();
+					//This will open a new frame where the simulation will happen and takes in values from the frame
+					//Simulation_Frame simFrame = new Simulation_Frame(perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop);
+					JFrame sim_frame = new JFrame("Simulation Frame");
 					
-					//sets the values that will be used in the second frame
-					simFrame.setValues(numNoVax, numOneVax, numTwoVax, numThreeVax, numNatural, numPop);
+					sim_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					sim_frame.setLayout(new FlowLayout() );//ANONYMOUS object
+					sim_frame.setSize(1200,1000);
+					sim_frame.setLocationRelativeTo(null);
+					
+					//set background color of contentPane
+					sim_frame.getContentPane().setBackground(Color.BLUE);
+					
+					//create an ANONYMOUS object of the class and add the JPanel to the JFrame
+					sim_frame.add(new Simulation_Frame(perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop) );
+					
+					sim_frame.pack();//shrinks the JFrame to the smallest size possible to conserve
+					             //screen real estate. Comment it out to see its effect
+					sim_frame.setVisible(true);	
+					setVisible(false);
 					//Catch if box value is not a number
 				}catch(Exception ex) {
 					JOptionPane.showMessageDialog(errorPane, "Please enter a number!");
@@ -77,17 +91,17 @@ public class Pandemic_Modeler extends JFrame
 		@Override
 		public void stateChanged(ChangeEvent e)
 		{
-			numNoVax = noVaxSlider.getValue();
-			numOneVax = oneVaxSlider.getValue();
-			numTwoVax = twoVaxSlider.getValue();
-			numThreeVax = threeVaxSlider.getValue();
-			numNatural = naturalImmSlider.getValue();
+			perNoVax = noVaxSlider.getValue();
+			perOneVax = oneVaxSlider.getValue();
+			perTwoVax = twoVaxSlider.getValue();
+			perThreeVax = threeVaxSlider.getValue();
+			perNatural = naturalImmSlider.getValue();
 						
-			noVaxLabel.setText("Percentage of non-vaccinated people: " + numNoVax + "%");
-			oneVaxLabel.setText("Percentage of people with one shot of the vaccine: " + numOneVax + "%");
-			twoVaxLabel.setText("Percentage of people with two shots of the vaccine: " + numTwoVax + "%");
-			threeVaxLabel.setText("Percentage of people with three shots of the vaccine: " + numThreeVax + "%");
-			nuturalImmLabel.setText("Percentage of people who recovered and have natural immunity: " + numNatural + "%");
+			noVaxLabel.setText("Percentage of non-vaccinated people: " + perNoVax + "%");
+			oneVaxLabel.setText("Percentage of people with one shot of the vaccine: " + perOneVax + "%");
+			twoVaxLabel.setText("Percentage of people with two shots of the vaccine: " + perTwoVax + "%");
+			threeVaxLabel.setText("Percentage of people with three shots of the vaccine: " + perThreeVax + "%");
+			nuturalImmLabel.setText("Percentage of people who recovered and have natural immunity: " + perNatural + "%");
 		}
 		
 	}

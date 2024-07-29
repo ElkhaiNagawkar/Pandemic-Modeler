@@ -7,6 +7,8 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
+
 import javax.swing.*;
 
 
@@ -14,14 +16,14 @@ public class Simulation_Frame extends JPanel
 {
 	private int perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop;
 	private Person[] personArr;
-	private final int WIDTH = 800, HEIGHT = 700;
+	private int WIDTH = 800, HEIGHT = 700;
 	private final int LAG_TIME = 50;
 	private Timer time;
 	private final int IMG_DIM =10;
 	
 	public Simulation_Frame(int percentNoVax, int percentOneVax, int percentTwoVax, int percentThreeVax, int percentNatural, int percentPop)
 	{	
-		this.time = new Timer(LAG_TIME, new BounceListener() );
+		this.time = new Timer(LAG_TIME, new BounceListener());
 		
 		this.perNoVax = percentNoVax;
 		this.perOneVax = percentOneVax;
@@ -31,15 +33,24 @@ public class Simulation_Frame extends JPanel
 		//Added one here as the first person will always be infected
 		this.perPop = percentPop + 1;
 
+		if(perPop >= 1000 && perPop <= 2000) {
+			WIDTH = 1000;
+			HEIGHT = 900;
+		}else if(perPop >= 2000)
+		{
+			WIDTH = 1200;
+			HEIGHT = 1000;
+		}
+		
 		personArr = new Person[perPop];
 		personArr[0] = new Person(IMG_DIM, Color.RED, WIDTH, HEIGHT);
 		
 		//Getting people in numbers instead of percent. This will be used to populate the array
-		int numNoVax = (int)((double)(perPop) * ((double)(perNoVax) / 100.0));		
-		int numOneVax = (int)((double)(perPop) * ((double)(perOneVax) / 100.0));
-		int numTwoVax = (int)((double)(perPop) * ((double)(perTwoVax) / 100.0));
-		int numThreeVax = (int)((double)(perPop) * ((double)(perThreeVax) / 100.0));
-		int numNaturalImm = (int)((double)(perPop) * ((double)(perNatural) / 100.0));
+		int numNoVax = (int)(((double)(perPop) - 1) * ((double)(perNoVax) / 100.0));		
+		int numOneVax = (int)(((double)(perPop) - 1) * ((double)(perOneVax) / 100.0));
+		int numTwoVax = (int)(((double)(perPop) - 1) * ((double)(perTwoVax) / 100.0));
+		int numThreeVax = (int)(((double)(perPop) - 1) * ((double)(perThreeVax) / 100.0));
+		int numNaturalImm = (int)(((double)(perPop) - 1) * ((double)(perNatural) / 100.0));
 			
 		int index = 1;
 		
@@ -67,6 +78,7 @@ public class Simulation_Frame extends JPanel
 			personArr[index] = new Person(IMG_DIM, Color.GREEN, WIDTH, HEIGHT);
 			index++;
 		}
+		
 		
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT) );
 		this.setBackground(Color.WHITE);
@@ -124,6 +136,86 @@ public class Simulation_Frame extends JPanel
 						personArr[i].setyIncrement(firstPersonNewyIncrement);
 						personArr[j].setxIncrement(secondPersonNewxIncrement);
 						personArr[j].setyIncrement(secondPersonNewyIncrement);
+						
+						
+						if(personArr[i].getColor().equals(Color.RED) && personArr[j].getColor().equals(Color.BLUE)) {
+							int chance = (int)(Math.random()*10 + 1);
+							
+							if(chance <= 8) {
+								personArr[j].setColor(personArr[i].getColor());
+							}
+						}
+						if(personArr[j].getColor().equals(Color.RED) && personArr[i].getColor().equals(Color.BLUE))
+						{
+							int chance = (int)(Math.random()*10 + 1);
+							if(chance <= 8) {							
+								personArr[i].setColor(personArr[j].getColor());
+							}
+						}
+						
+						if(personArr[i].getColor().equals(Color.RED) && personArr[j].getColor().equals(Color.CYAN)) {
+							int chance = (int)(Math.random()*10 + 1);
+							
+							if(chance <= 6) {
+								personArr[j].setColor(personArr[i].getColor());
+							}
+						}
+						
+						if(personArr[j].getColor().equals(Color.RED) && personArr[i].getColor().equals(Color.CYAN))
+						{
+							int chance = (int)(Math.random()*10 + 1);
+							if(chance <= 6) {							
+								personArr[i].setColor(personArr[j].getColor());
+							}
+						}
+						
+						if(personArr[i].getColor().equals(Color.RED) && personArr[j].getColor().equals(Color.YELLOW)) {
+							int chance = (int)(Math.random()*10 + 1);
+							
+							if(chance <= 3) {
+								personArr[j].setColor(personArr[i].getColor());
+							}
+						}
+						
+						if(personArr[j].getColor().equals(Color.RED) && personArr[i].getColor().equals(Color.YELLOW))
+						{
+							int chance = (int)(Math.random()*10 + 1);
+							if(chance <= 3) {							
+								personArr[i].setColor(personArr[j].getColor());
+							}
+						}
+						
+						if(personArr[i].getColor().equals(Color.RED) && personArr[j].getColor().equals(Color.MAGENTA)) {
+							int chance = (int)(Math.random()*10 + 1);
+							
+							if(chance <= 1) {
+								personArr[j].setColor(personArr[i].getColor());
+							}
+						}
+						
+						if(personArr[j].getColor().equals(Color.RED) && personArr[i].getColor().equals(Color.MAGENTA))
+						{
+							int chance = (int)(Math.random()*10 + 1);
+							if(chance <= 1) {							
+								personArr[i].setColor(personArr[j].getColor());
+							}
+						}
+						
+						if(personArr[i].getColor().equals(Color.RED) && personArr[j].getColor().equals(Color.GREEN)) {
+							int chance = (int)(Math.random()*10 + 1);
+							
+							if(chance <= 4) {
+								personArr[j].setColor(personArr[i].getColor());
+							}
+						}
+
+						if(personArr[j].getColor().equals(Color.RED) && personArr[i].getColor().equals(Color.GREEN))
+						{
+							int chance = (int)(Math.random()*10 + 1);
+							if(chance <= 4) {							
+								personArr[i].setColor(personArr[j].getColor());
+							}
+						}						
 					}//end if
 				}//end inner loop
 			}//end outer loop

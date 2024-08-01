@@ -17,13 +17,26 @@ public class Simulation_Frame extends JPanel
 	private int perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop;
 	private Person[] personArr;
 	private int WIDTH = 800, HEIGHT = 700;
-	private final int LAG_TIME = 50;
+	private final int LAG_TIME = 100;
+	//Value that corresponds to 90 seconds.
+	private final int END_SIM = 90000;
+	//check for infected every 200 milliseconds
+	private final int checkInfected = 200;
+	//Timer for bouncing
 	private Timer time;
+	//Timer to end simulation
+	private Timer stopTimer;
+	//This Timer is used to check if any person is infected. If they are increase the cycle counter
+	private Timer InfectedTimer;
 	private final int IMG_DIM =10;
+
+
 	
 	public Simulation_Frame(int percentNoVax, int percentOneVax, int percentTwoVax, int percentThreeVax, int percentNatural, int percentPop)
 	{	
 		this.time = new Timer(LAG_TIME, new BounceListener());
+		this.stopTimer = new Timer(END_SIM, new EndListener());
+		this.InfectedTimer = new Timer(checkInfected, new infectedListener());
 		
 		this.perNoVax = percentNoVax;
 		this.perOneVax = percentOneVax;
@@ -33,6 +46,8 @@ public class Simulation_Frame extends JPanel
 		//Added one here as the first person will always be infected
 		this.perPop = percentPop + 1;
 
+
+		//Change the width and height to fit more person objects in frame
 		if(perPop >= 1000 && perPop <= 2000) {
 			WIDTH = 1000;
 			HEIGHT = 900;
@@ -43,8 +58,9 @@ public class Simulation_Frame extends JPanel
 		}
 		
 		personArr = new Person[perPop];
-		personArr[0] = new Person(IMG_DIM, Color.RED, WIDTH, HEIGHT);
 		
+		personArr[0] = new Person(IMG_DIM, Color.RED, WIDTH, HEIGHT, 1, true, true);
+
 		//Getting people in numbers instead of percent. This will be used to populate the array
 		int numNoVax = (int)(((double)(perPop) - 1) * ((double)(perNoVax) / 100.0));		
 		int numOneVax = (int)(((double)(perPop) - 1) * ((double)(perOneVax) / 100.0));
@@ -55,27 +71,27 @@ public class Simulation_Frame extends JPanel
 		int index = 1;
 		
 		for(int i = 0; i < numNoVax; i++) {
-			personArr[index] = new Person(IMG_DIM, Color.BLUE, WIDTH, HEIGHT);
+			personArr[index] = new Person(IMG_DIM, Color.BLUE, WIDTH, HEIGHT, 1, false, true);
 			index++;
 		}
 		
 		for(int i = 0; i < numOneVax; i++) {
-			personArr[index] = new Person(IMG_DIM, Color.CYAN, WIDTH, HEIGHT);
+			personArr[index] = new Person(IMG_DIM, Color.CYAN, WIDTH, HEIGHT, 2, false, true);
 			index++;
 		}
 
 		for(int i = 0; i < numTwoVax; i++) {
-			personArr[index] = new Person(IMG_DIM, Color.YELLOW, WIDTH, HEIGHT);
+			personArr[index] = new Person(IMG_DIM, Color.YELLOW, WIDTH, HEIGHT, 4, false, true);
 			index++;
 		}
 		
 		for(int i = 0; i < numThreeVax; i++) {
-			personArr[index] = new Person(IMG_DIM, Color.MAGENTA, WIDTH, HEIGHT);
+			personArr[index] = new Person(IMG_DIM, Color.MAGENTA, WIDTH, HEIGHT, 5, false, true);
 			index++;
 		}
 		
 		for(int i = 0; i < numNaturalImm; i++) {
-			personArr[index] = new Person(IMG_DIM, Color.GREEN, WIDTH, HEIGHT);
+			personArr[index] = new Person(IMG_DIM, Color.GREEN, WIDTH, HEIGHT, 3, false, true);
 			index++;
 		}
 		
@@ -83,6 +99,8 @@ public class Simulation_Frame extends JPanel
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT) );
 		this.setBackground(Color.WHITE);
 		this.time.start();
+		this.stopTimer.start();
+		this.InfectedTimer.start();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -101,7 +119,9 @@ public class Simulation_Frame extends JPanel
 		{
 			for(int i = 0; i < personArr.length; i++)
 			{
+				if(personArr[i].getIsAlive()) {
 				calcPosition(personArr[i]);
+				}
 			}
 			
 			int deltaX;
@@ -143,6 +163,7 @@ public class Simulation_Frame extends JPanel
 							
 							if(chance <= 8) {
 								personArr[j].setColor(personArr[i].getColor());
+								personArr[j].setInfected(true);
 							}
 						}
 						if(personArr[j].getColor().equals(Color.RED) && personArr[i].getColor().equals(Color.BLUE))
@@ -150,6 +171,7 @@ public class Simulation_Frame extends JPanel
 							int chance = (int)(Math.random()*10 + 1);
 							if(chance <= 8) {							
 								personArr[i].setColor(personArr[j].getColor());
+								personArr[i].setInfected(true);
 							}
 						}
 						
@@ -218,10 +240,69 @@ public class Simulation_Frame extends JPanel
 						}						
 					}//end if
 				}//end inner loop
-			}//end outer loop
+			}//end outer loop			
 			repaint();
 		}//end method
 	}//end listener
+	
+	//This listener is called at the end of the simulation to end the simulation
+	private class EndListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			for(Person person : personArr){
+				person.setxIncrement(0);
+				person.setyIncrement(0);
+			}			
+			time.stop();
+			stopTimer.stop();
+			InfectedTimer.stop();
+		}
+	}
+	
+	private class infectedListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			for(int i = 0; i < personArr.length; i++) {
+				if(personArr[i].isInfected()) {
+					personArr[i].setCycleCounter(personArr[i].getCycleCounter() + 1 );
+				}
+	
+				if(personArr[i].getCycleCounter() >= 150) {
+					
+					if(personArr[i].getImmunityStatus() == 1) {
+						int deathChance = (int)(Math.random()*10 + 1);
+						if(deathChance == 1) {
+							personArr[i].setColor(Color.BLACK);
+							personArr[i].setAlive(false);
+						}
+						else {
+							personArr[i].setColor(Color.GREEN);
+							personArr[i].setImmunityStatus(3);
+							personArr[i].setCycleCounter(0);
+						}
+					}//first if end
+					
+					if(personArr[i].getImmunityStatus() == 2) {
+						int deathChance = (int)(Math.random()*100 + 1);
+						if(deathChance <= 7) {
+							personArr[i].setColor(Color.BLACK);
+							personArr[i].setAlive(false);
+						}
+						else {
+							personArr[i].setColor(Color.GREEN);
+							personArr[i].setImmunityStatus(3);
+							personArr[i].setCycleCounter(0);
+						}
+					}//second if end
+					
+				}
+			}
+		}
+	}
 	
 	public void calcPosition(Person person) {
 		if(person.getxCoord() >= WIDTH - person.getDiam()) 

@@ -13,14 +13,31 @@ public class Person
 	private int diam;
 	private Color color;
 	
+	/*
+	 * Immunity status explained:
+	 * 1 = 20% immunity (no Vaccine 80% to get infected)
+	 * 2 = 40% immunity (one Vaccine 60% to get infected)
+	 * 3 = 60% immunity (natural Immunity 40% to get re-infected)
+	 * 4 = 70% immunity (two Vaccine 30% to get infected)
+	 * 5 = 90% immunity (three Vaccine 10% to get infected)
+	 * */
+	private int immunityStatus;
+	private boolean isAlive;
+	private boolean isInfected;
+	private int cycleCounter;
+
 	private int xIncrement;
 	private int yIncrement;
 	
-	public Person(int diam, Color color, int widthValue, int heightValue) {
+	public Person(int diam, Color color, int widthValue, int heightValue, int immunityStatus, boolean isInfected, boolean isAlive) {
 
 		int randomX, randomY;
 		this.diam = diam;
 		this.color = color;
+		this.immunityStatus = immunityStatus;
+		this.isAlive = isAlive;
+		this.isInfected = isInfected;
+		this.cycleCounter = 0;
 		
 		boolean loopflag1 = true;
 		
@@ -57,8 +74,8 @@ public class Person
 		{
 			this.xIncrement = (int)(Math.random()*11 - 5);
 			this.yIncrement = (int)(Math.random()*11 - 5);
-			//Changed HERE REMEMBER IF DOES NOT WORK yIncrement to xIncrement in if
-			if(this.xIncrement ==0 && this.xIncrement ==0)
+			
+			if(this.xIncrement ==0 && this.yIncrement ==0)
 			{
 			  //run it again
 				this.xIncrement = (int)(Math.random()*11 - 5);
@@ -71,6 +88,7 @@ public class Person
 		}//end loop
 	}//end constructor
 
+	
 	public int getxCoord()
 	{
 		return xCoord;
@@ -131,6 +149,48 @@ public class Person
 		this.yIncrement = yIncrement;
 	}
 	
+	public boolean getIsAlive()
+	{
+		return isAlive;
+	}
+
+	public void setAlive(boolean isAlive)
+	{
+		this.isAlive = isAlive;
+	}
+
+	public boolean isInfected()
+	{
+		return isInfected;
+	}
+
+	public void setInfected(boolean isInfected)
+	{
+		this.isInfected = isInfected;
+	}
+
+	public int getCycleCounter()
+	{
+		return cycleCounter;
+	}
+
+
+	public void setCycleCounter(int cycleCounter)
+	{
+		this.cycleCounter = cycleCounter;
+	}
+
+
+	public int getImmunityStatus()
+	{
+		return immunityStatus;
+	}
+
+
+	public void setImmunityStatus(int immunityStatus)
+	{
+		this.immunityStatus = immunityStatus;
+	}
 	
 }
 //end class

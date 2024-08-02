@@ -11,7 +11,6 @@ import java.util.Random;
 
 import javax.swing.*;
 
-
 public class Simulation_Frame extends JPanel
 {
 	private int perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop;
@@ -30,13 +29,13 @@ public class Simulation_Frame extends JPanel
 	private Timer InfectedTimer;
 	private final int IMG_DIM =10;
 
-
 	
 	public Simulation_Frame(int percentNoVax, int percentOneVax, int percentTwoVax, int percentThreeVax, int percentNatural, int percentPop)
 	{	
 		this.time = new Timer(LAG_TIME, new BounceListener());
 		this.stopTimer = new Timer(END_SIM, new EndListener());
 		this.InfectedTimer = new Timer(checkInfected, new infectedListener());
+		this.setLayout(new BorderLayout());
 		
 		this.perNoVax = percentNoVax;
 		this.perOneVax = percentOneVax;
@@ -97,7 +96,7 @@ public class Simulation_Frame extends JPanel
 		
 		
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT) );
-		this.setBackground(Color.WHITE);
+		this.setBackground(new Color(224, 224, 224));
 		this.time.start();
 		this.stopTimer.start();
 		this.InfectedTimer.start();
@@ -271,11 +270,11 @@ public class Simulation_Frame extends JPanel
 					personArr[i].setCycleCounter(personArr[i].getCycleCounter() + 1 );
 				}
 	
-				if(personArr[i].getCycleCounter() >= 150) {
+				if(personArr[i].getCycleCounter() >= 150 && personArr[i].getIsAlive()) {
 					
 					if(personArr[i].getImmunityStatus() == 1) {
 						int deathChance = (int)(Math.random()*10 + 1);
-						if(deathChance == 1) {
+						if(deathChance <= 9) {
 							personArr[i].setColor(Color.BLACK);
 							personArr[i].setAlive(false);
 						}
@@ -299,6 +298,42 @@ public class Simulation_Frame extends JPanel
 						}
 					}//second if end
 					
+					if(personArr[i].getImmunityStatus() == 3) {
+						int deathChance = (int)(Math.random()*100 + 1);
+						if(deathChance <= 3) {
+							personArr[i].setColor(Color.BLACK);
+							personArr[i].setAlive(false);
+						}
+						else {
+							personArr[i].setColor(Color.GREEN);
+							personArr[i].setImmunityStatus(3);
+							personArr[i].setCycleCounter(0);
+						}
+					}//second if end
+					
+					if(personArr[i].getImmunityStatus() == 4) {
+						int deathChance = (int)(Math.random()*100 + 1);
+						if(deathChance <= 3) {
+							personArr[i].setColor(Color.BLACK);
+							personArr[i].setAlive(false);
+						}
+						else {
+							personArr[i].setColor(Color.YELLOW);
+							personArr[i].setCycleCounter(0);
+						}
+					}//second if end
+					
+					if(personArr[i].getImmunityStatus() == 5) {
+						int deathChance = (int)(Math.random()*100 + 1);
+						if(deathChance == 1) {
+							personArr[i].setColor(Color.BLACK);
+							personArr[i].setAlive(false);
+						}
+						else {
+							personArr[i].setColor(Color.MAGENTA);
+							personArr[i].setCycleCounter(0);
+						}
+					}//second if end
 				}
 			}
 		}
@@ -330,5 +365,17 @@ public class Simulation_Frame extends JPanel
 		person.setyCoord(person.getyCoord() + person.getyIncrement());
 	}
 	
+	public class test implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			time.stop();
+		}
+	}
+	
 }
 //end class
+
+
+

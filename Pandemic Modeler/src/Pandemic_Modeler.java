@@ -16,6 +16,7 @@ public class Pandemic_Modeler extends JFrame
 	private JSlider noVaxSlider, oneVaxSlider, twoVaxSlider, threeVaxSlider, naturalImmSlider;
 	private JLabel noVaxLabel, oneVaxLabel, twoVaxLabel, threeVaxLabel, nuturalImmLabel, populationLabel;
 	private JButton submitButton;
+	private JButton start, stop;
 	private JComboBox<String> populationBox;
 	String[]populationArray = {
       "100", "200", "300", "400", "500", "1000", "2000", "3000", "4000", "5000"
@@ -64,7 +65,7 @@ public class Pandemic_Modeler extends JFrame
 					JFrame sim_frame = new JFrame("Simulation Frame");
 					
 					sim_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					sim_frame.setLayout(new FlowLayout() );//ANONYMOUS object
+					sim_frame.setLayout(new BorderLayout() );//ANONYMOUS object
 					sim_frame.setSize(1200,1000);
 					sim_frame.setLocationRelativeTo(null);
 					
@@ -72,8 +73,13 @@ public class Pandemic_Modeler extends JFrame
 					sim_frame.getContentPane().setBackground(Color.BLUE);
 					
 					//create an ANONYMOUS object of the class and add the JPanel to the JFrame
-					sim_frame.add(new Simulation_Frame(perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop) );
+					sim_frame.add(new Simulation_Frame(perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop), BorderLayout.CENTER);
 					
+//					start = new JButton("Start");
+//					start.addActionListener(new test());
+//					stop = new JButton("Stop");
+//					sim_frame.add(start, BorderLayout.SOUTH);
+
 					sim_frame.pack();//shrinks the JFrame to the smallest size possible to conserve
 					             //screen real estate. Comment it out to see its effect
 					sim_frame.setVisible(true);	

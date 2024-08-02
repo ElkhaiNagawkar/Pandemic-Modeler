@@ -274,7 +274,7 @@ public class Simulation_Frame extends JPanel
 					
 					if(personArr[i].getImmunityStatus() == 1) {
 						int deathChance = (int)(Math.random()*10 + 1);
-						if(deathChance <= 9) {
+						if(deathChance == 1) {
 							personArr[i].setColor(Color.BLACK);
 							personArr[i].setAlive(false);
 						}
@@ -364,15 +364,39 @@ public class Simulation_Frame extends JPanel
 		person.setxCoord(person.getxCoord() + person.getxIncrement());
 		person.setyCoord(person.getyCoord() + person.getyIncrement());
 	}
-	
-	public class test implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			time.stop();
-		}
+	public Timer getTime()
+	{
+		return time;
 	}
+
+	public void setTime(Timer time)
+	{
+		this.time = time;
+	}
+
+	public Timer getStopTimer()
+	{
+		return stopTimer;
+	}
+
+	public void setStopTimer(Timer stopTimer)
+	{
+		this.stopTimer = stopTimer;
+	}
+
+	public Timer getInfectedTimer()
+	{
+		return InfectedTimer;
+	}
+
+	public void setInfectedTimer(Timer infectedTimer)
+	{
+		InfectedTimer = infectedTimer;
+	}
+	
+	
+	
 	
 }
 //end class

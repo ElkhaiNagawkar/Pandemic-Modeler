@@ -12,17 +12,19 @@ import javax.swing.event.*;
 
 public class Pandemic_Modeler extends JFrame
 {
-	private JPanel percentagePanel, populationSizePanel;
+	private JPanel percentagePanel, populationSizePanel, startStopPanel;
 	private JSlider noVaxSlider, oneVaxSlider, twoVaxSlider, threeVaxSlider, naturalImmSlider;
 	private JLabel noVaxLabel, oneVaxLabel, twoVaxLabel, threeVaxLabel, nuturalImmLabel, populationLabel;
-	private JButton submitButton;
-	private JButton start, stop;
+	private JButton submitButton, startButton, stopButton;
 	private JComboBox<String> populationBox;
 	String[]populationArray = {
       "100", "200", "300", "400", "500", "1000", "2000", "3000", "4000", "5000"
 		};
 	private int perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop;
+	//This is used for the StartStopHandler
+	private boolean stop = false;
 	Container errorPane;
+	Simulation_Frame simulation_frame;
 	
 	public Pandemic_Modeler(){
 		super("Starting Input"); //Passing title bar text up to super class constructor
@@ -72,13 +74,21 @@ public class Pandemic_Modeler extends JFrame
 					//set background color of contentPane
 					sim_frame.getContentPane().setBackground(Color.BLUE);
 					
+					simulation_frame = new Simulation_Frame(perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop);
 					//create an ANONYMOUS object of the class and add the JPanel to the JFrame
-					sim_frame.add(new Simulation_Frame(perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop), BorderLayout.CENTER);
+					sim_frame.add(simulation_frame, BorderLayout.CENTER);
 					
-//					start = new JButton("Start");
-//					start.addActionListener(new test());
-//					stop = new JButton("Stop");
-//					sim_frame.add(start, BorderLayout.SOUTH);
+					startStopPanel = new JPanel();
+					startStopPanel.setLayout(new GridLayout(1, 2));
+					
+					startButton = new JButton("Start");
+					stopButton = new JButton("Stop");
+					startButton.addActionListener(new StartStopListener());
+					stopButton.addActionListener(new StartStopListener());
+					startStopPanel.add(startButton);
+					startStopPanel.add(stopButton);
+					
+					sim_frame.add(startStopPanel, BorderLayout.SOUTH);
 
 					sim_frame.pack();//shrinks the JFrame to the smallest size possible to conserve
 					             //screen real estate. Comment it out to see its effect
@@ -206,6 +216,52 @@ public class Pandemic_Modeler extends JFrame
 		nuturalImmLabel = new JLabel("Percentage of people who recovered and have natural immunity: 0%");
 		nuturalImmLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+	}
+	
+	public class StartStopListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			Timer time;
+			Timer infectedTimer;
+			Timer stopTimer;
+			
+			if(e.getActionCommand().equals("Start")) {
+				if(stop) {
+					time = simulation_frame.getTime();
+					time.start();
+					simulation_frame.setTime(time);
+					
+					infectedTimer = simulation_frame.getInfectedTimer();
+					infectedTimer.start();
+					simulation_frame.setInfectedTimer(infectedTimer);
+					
+					stopTimer = simulation_frame.getStopTimer();
+					stopTimer.start();
+					simulation_frame.setStopTimer(stopTimer);
+					
+					stop = false;
+				}
+			}else 
+			{
+				if(!stop) {				
+					time = simulation_frame.getTime();
+					time.stop();
+					simulation_frame.setTime(time);
+					
+					infectedTimer = simulation_frame.getInfectedTimer();
+					infectedTimer.stop();
+					simulation_frame.setInfectedTimer(infectedTimer);
+					
+					stopTimer = simulation_frame.getStopTimer();
+					stopTimer.stop();
+					simulation_frame.setStopTimer(stopTimer);
+					
+					stop = true;
+				}
+			}
+		}
 	}
 	
 	public static void main(String[] args)

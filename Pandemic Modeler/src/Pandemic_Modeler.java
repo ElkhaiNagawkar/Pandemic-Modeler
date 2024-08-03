@@ -15,7 +15,7 @@ public class Pandemic_Modeler extends JFrame
 	private JPanel percentagePanel, populationSizePanel, startStopPanel;
 	private JSlider noVaxSlider, oneVaxSlider, twoVaxSlider, threeVaxSlider, naturalImmSlider;
 	private JLabel noVaxLabel, oneVaxLabel, twoVaxLabel, threeVaxLabel, nuturalImmLabel, populationLabel;
-	private JButton submitButton, startButton, stopButton;
+	private JButton submitButton, startButton, stopButton, aboutButton;
 	private JComboBox<String> populationBox;
 	String[]populationArray = {
       "100", "200", "300", "400", "500", "1000", "2000", "3000", "4000", "5000"
@@ -79,14 +79,17 @@ public class Pandemic_Modeler extends JFrame
 					sim_frame.add(simulation_frame, BorderLayout.CENTER);
 					
 					startStopPanel = new JPanel();
-					startStopPanel.setLayout(new GridLayout(1, 2));
+					startStopPanel.setLayout(new GridLayout(1, 3));
 					
 					startButton = new JButton("Start");
 					stopButton = new JButton("Stop");
-					startButton.addActionListener(new StartStopListener());
-					stopButton.addActionListener(new StartStopListener());
+					aboutButton = new JButton("About");
+					startButton.addActionListener(new StartStopAboutListener());
+					stopButton.addActionListener(new StartStopAboutListener());
+					aboutButton.addActionListener(new StartStopAboutListener());
 					startStopPanel.add(startButton);
 					startStopPanel.add(stopButton);
+					startStopPanel.add(aboutButton);
 					
 					sim_frame.add(startStopPanel, BorderLayout.SOUTH);
 
@@ -218,7 +221,7 @@ public class Pandemic_Modeler extends JFrame
 
 	}
 	
-	public class StartStopListener implements ActionListener {
+	public class StartStopAboutListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e)
@@ -243,7 +246,7 @@ public class Pandemic_Modeler extends JFrame
 					
 					stop = false;
 				}
-			}else 
+			}else if(e.getActionCommand().equals("Stop"))
 			{
 				if(!stop) {				
 					time = simulation_frame.getTime();
@@ -260,6 +263,9 @@ public class Pandemic_Modeler extends JFrame
 					
 					stop = true;
 				}
+			}
+			else {
+				new About_Frame();
 			}
 		}
 	}

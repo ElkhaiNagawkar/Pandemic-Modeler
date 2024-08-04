@@ -172,7 +172,7 @@ public class Person
 
 	public void setInfected(boolean isInfected)
 	{
-		if(isInfected) {
+		if(this.color.equals(Color.GREEN)) {
 			this.hasBeenInfected=true;
 		}
 		this.isInfected = isInfected;

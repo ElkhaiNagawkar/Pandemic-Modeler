@@ -31,7 +31,7 @@ public class Simulation_Frame extends JPanel
 
 	JPanel statsPanel = new JPanel();
 	JTextField infectedTextBox = new JTextField(0+"");
-	JTextField notInfectedTextBox = new JTextField(0+"");
+	JTextField unvaccinatedTextBox = new JTextField(0+"");
 	JTextField deadTextBox = new JTextField(0+"");
 	JTextField oneShotTextBox = new JTextField(0+"");
 	JTextField twoShotTextBox = new JTextField(0+"");
@@ -51,7 +51,7 @@ public class Simulation_Frame extends JPanel
 		statsPanel.add(new JLabel("Infected: "));
 		statsPanel.add(infectedTextBox);
 		statsPanel.add(new JLabel("Not Infected: "));
-		statsPanel.add(notInfectedTextBox);
+		statsPanel.add(unvaccinatedTextBox);
 		statsPanel.add(new JLabel("Dead: "));
 		statsPanel.add(deadTextBox);
 		statsPanel.add(new JLabel("One shot: "));
@@ -66,7 +66,7 @@ public class Simulation_Frame extends JPanel
 		statsPanel.add(reinfectedTextBox);
 		
 		infectedTextBox.setEditable(false);
-		notInfectedTextBox.setEditable(false);
+		unvaccinatedTextBox.setEditable(false);
 		deadTextBox.setEditable(false);
 		oneShotTextBox.setEditable(false);
 		twoShotTextBox.setEditable(false);
@@ -135,6 +135,7 @@ public class Simulation_Frame extends JPanel
 		}
 		
 		
+		
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT) );
 		this.setBackground(new Color(224, 224, 224));
 		this.time.start();
@@ -145,7 +146,7 @@ public class Simulation_Frame extends JPanel
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		int infectedCounter=0;
-		int notInfectedCounter=0;
+		int unvaccinatedCounter=0;
 		int deadCounter=0;
 		int oneShotCounter=0;
 		int twoShotCounter=0;
@@ -161,23 +162,24 @@ public class Simulation_Frame extends JPanel
 				infectedCounter++;
 				infectedTextBox.setText(infectedCounter+"");
 			}
-			else if(personArr[i].getColor().equals(Color.BLUE)) {
-				notInfectedCounter++;
-				notInfectedTextBox.setText(notInfectedCounter+"");
+			
+			if(personArr[i].getImmunityStatus() == 1 && personArr[i].getColor().equals(Color.RED)) {
+				unvaccinatedCounter++;
+				unvaccinatedTextBox.setText(unvaccinatedCounter+"");
 			}
 			else if(personArr[i].getColor().equals(Color.BLACK)) {
 				deadCounter++;
 				deadTextBox.setText(deadCounter+"");
 			}
-			else if(personArr[i].getColor().equals(Color.CYAN)) {
+			else if(personArr[i].getImmunityStatus() == 2 && personArr[i].getColor().equals(Color.RED)) {
 				oneShotCounter++;
 				oneShotTextBox.setText(oneShotCounter+"");
 			}
-			else if(personArr[i].getColor().equals(Color.YELLOW)) {
+			else if(personArr[i].getImmunityStatus() == 4 && personArr[i].getColor().equals(Color.RED)) {
 				twoShotCounter++;
 				twoShotTextBox.setText(twoShotCounter+"");
 			}
-			else if(personArr[i].getColor().equals(Color.MAGENTA)) {
+			else if(personArr[i].getImmunityStatus() == 5 && personArr[i].getColor().equals(Color.RED)) {
 				threeShotCounter++;
 				threeShotTextBox.setText(threeShotCounter+"");
 			}
@@ -186,7 +188,7 @@ public class Simulation_Frame extends JPanel
 				naturalImmunityTextBox.setText(naturalImmunityCounter+"");
 			}
 			
-			if(personArr[i].getHasBeenInfected()) {
+			if(personArr[i].getHasBeenInfected() && personArr[i].getColor().equals(Color.RED)) {
 				reinfectedCounter++;
 				reinfectedTextBox.setText(reinfectedCounter+"");
 			}
@@ -266,10 +268,10 @@ public class Simulation_Frame extends JPanel
 						if(chanceToInfect != 0) {
 							int chance = (int)(Math.random()*10 + 1);
 							if(chance <= chanceToInfect) {
-								personArr[i].setColor(Color.RED);
 								personArr[i].setInfected(true);
-								personArr[j].setColor(Color.RED);
+								personArr[i].setColor(Color.RED);
 								personArr[j].setInfected(true);
+								personArr[j].setColor(Color.RED);
 							}
 									  
 						}
@@ -354,6 +356,7 @@ public class Simulation_Frame extends JPanel
 			time.stop();
 			stopTimer.stop();
 			InfectedTimer.stop();
+			new Report_Frame(personArr);
 		}
 	}
 	

@@ -9,6 +9,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Report_Frame extends JFrame{
+	JLabel label = new JLabel();
 	public Report_Frame(Person[] personArr) {
 		
 	}

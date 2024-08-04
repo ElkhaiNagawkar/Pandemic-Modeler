@@ -103,7 +103,7 @@ public class Report_Frame extends JFrame{
 		topPanel.add(new JLabel("% of population that recovered: "));
 		topPanel.add(recoveredTextBox);
 		recoveredTextBox.setText((recoveredCounter/personArr.length)*100+"");
-		recoveredTextBox.setEditable(false);
+		recoveredTextBox.setEditable(false); 
 		
 
 

@@ -1,7 +1,7 @@
 /**
  * Program Name: Pandemic_Modeler.java
  * Purpose: This Is the main program of the Pandemic Modeler. This program will imitate the spread of an infection over a 3 week period.
- * Coder: Elkhai Nagawkar (1115993) for Sec 04, /////////ADD YOUR STUFF HERE BRUH
+ * Coder: Elkhai Nagawkar (1115993) for Sec 04, Bruno Magalhaes (1132360) section 3
  * Date: Jul 24, 2024
  */
 

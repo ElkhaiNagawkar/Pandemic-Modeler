@@ -1,7 +1,7 @@
 /**
  * Program Name: Person.java
  * Purpose: This class will hold the information for each person on screen.
- * Coder: Elkhai Nagawkar (1115993) for Sec 04
+ * Coder: Elkhai Nagawkar (1115993) for Sec 04, Bruno Magalhaes (1132360) section 3
  * Date: Jul 25, 2024
  */
 import java.awt.*;

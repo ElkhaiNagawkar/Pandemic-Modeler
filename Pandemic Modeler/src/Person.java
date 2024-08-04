@@ -24,6 +24,7 @@ public class Person
 	private int immunityStatus;
 	private boolean isAlive;
 	private boolean isInfected;
+	private boolean hasBeenInfected;
 	private int cycleCounter;
 
 	private int xIncrement;
@@ -38,6 +39,8 @@ public class Person
 		this.isAlive = isAlive;
 		this.isInfected = isInfected;
 		this.cycleCounter = 0;
+		this.hasBeenInfected = false;
+
 		
 		boolean loopflag1 = true;
 		
@@ -156,6 +159,9 @@ public class Person
 
 	public void setAlive(boolean isAlive)
 	{
+		if(!isAlive) {
+			this.isInfected=false;
+		}
 		this.isAlive = isAlive;
 	}
 
@@ -166,6 +172,9 @@ public class Person
 
 	public void setInfected(boolean isInfected)
 	{
+		if(isInfected) {
+			this.hasBeenInfected=true;
+		}
 		this.isInfected = isInfected;
 	}
 
@@ -188,8 +197,12 @@ public class Person
 
 
 	public void setImmunityStatus(int immunityStatus)
-	{
+	{		
 		this.immunityStatus = immunityStatus;
+	}
+	
+	public boolean getHasBeenInfected() {
+		return hasBeenInfected;
 	}
 	
 }

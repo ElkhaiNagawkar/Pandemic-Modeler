@@ -1,7 +1,7 @@
 /**
  * Program Name: About_Frame.java
  * Purpose: This is a JFrame that will show when the about button is clicked
- * Coder: Elkhai Nagawkar (1115993) for Sec 04
+ * Coder: Elkhai Nagawkar (1115993) for Sec 04, Bruno Magalhaes (1132360) section 3
  * Date: Aug 3, 2024
  */
 
@@ -25,7 +25,7 @@ public class About_Frame extends JFrame
 			title.setHorizontalAlignment(SwingConstants.CENTER);
 			title.setFont(new Font("Arial", Font.BOLD, 20));
 			firstMember = new JLabel("Elkhai Nagawkar (1115993) section 4.");
-			secondMember = new JLabel("Put name here");
+			secondMember = new JLabel("Bruno Magalhaes (1132360) section 3.");
 			
 			this.add(title);
 			this.add(firstMember);

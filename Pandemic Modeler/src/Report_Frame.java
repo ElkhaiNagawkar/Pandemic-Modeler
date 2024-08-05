@@ -19,8 +19,14 @@ public class Report_Frame extends JFrame{
 	double naturalImmunityCounter=0;
 	double recoveredCounter=0;
 	
+	double unvaccinatedMortality=0;
+	double oneShotMortality=0;
+	double twoShotMortality=0;
+	double threeShotMortality=0;
+	double naturalMortality=0;
+	
 	JPanel topPanel = new JPanel(new GridLayout(4,4,10,10));
-	JPanel bottomPane = new JPanel();
+	JPanel bottomPanel = new JPanel(new GridLayout(5,2,10,10));
 	
 	JTextField infectedTextBox = new JTextField(0+"");
 	JTextField unvaccinatedTextBox = new JTextField(0+"");
@@ -31,17 +37,23 @@ public class Report_Frame extends JFrame{
 	JTextField naturalImmunityTextBox = new JTextField(0+"");
 	JTextField recoveredTextBox = new JTextField(0+"");
 	
+	JTextField oneShotMortalityTextBox = new JTextField(0+"");
+	JTextField twoShotMortalityTextBox = new JTextField(0+"");
+	JTextField threeShotMortalityTextBox = new JTextField(0+"");
+	JTextField naturalMortalityTextBox = new JTextField(0+"");
+	JTextField unvaccinatedMortalityTextBox = new JTextField(0+"");
+	
 	public Report_Frame(Person[] personArr) {
 		super("Report");
 
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setSize(800,800); //width and height in pixels
+		this.setSize(1000,600); //width and height in pixels
 		this.setLocationRelativeTo(null); //Centers the JFrame on the desktop
 		this.setLayout(new GridLayout(2, 1, 10, 10)); //Anonymous object... NOTE: Default layout for JFrame is borderlayout
 		
 		
 		this.add(topPanel);
-		this.add(bottomPane);
+		this.add(bottomPanel);
 		
 		for(int i=0;i<personArr.length;i++) {
 			if(personArr[i].getColor().equals(Color.RED)) {
@@ -105,8 +117,75 @@ public class Report_Frame extends JFrame{
 		recoveredTextBox.setText((recoveredCounter/personArr.length)*100+"");
 		recoveredTextBox.setEditable(false); 
 		
+		for(int i=0;i<personArr.length;i++) {
+			if(!personArr[i].getIsAlive() && personArr[i].getImmunityStatus()==1) {
+				unvaccinatedMortality++;
+			}
+			else if(!personArr[i].getIsAlive() && personArr[i].getImmunityStatus()==2) {
+				oneShotMortality++;
+			}
+			else if(!personArr[i].getIsAlive() && personArr[i].getImmunityStatus()==3) {
+				naturalMortality++;
+			}
+			else if(!personArr[i].getIsAlive() && personArr[i].getImmunityStatus()==4) {
+				twoShotMortality++;
+			}
+			else if(!personArr[i].getIsAlive() && personArr[i].getImmunityStatus()==5) {
+				threeShotMortality++;
+			}
+		}
+		
+		unvaccinatedCounter=0;
+		oneShotCounter=0;
+		naturalImmunityCounter=0;
+		twoShotCounter=0;
+		threeShotCounter=0;
+		
+		for(int i=0;i<personArr.length;i++) {
+			if(personArr[i].getImmunityStatus()==1) {
+				unvaccinatedCounter++;
+			}
+			else if(personArr[i].getImmunityStatus()==2) {
+				oneShotCounter++;
+			}
+			else if(personArr[i].getImmunityStatus()==3) {
+				naturalImmunityCounter++;
+			}
+			else if(personArr[i].getImmunityStatus()==4) {
+				twoShotCounter++;
+			}
+			else if(personArr[i].getImmunityStatus()==5) {
+				threeShotCounter++;
+			}
+		}
 
-
+		
+		
+		bottomPanel.add(new JLabel("Unvaccinated mortalty rate: "));
+		bottomPanel.add(unvaccinatedMortalityTextBox);
+		unvaccinatedMortalityTextBox.setEditable(false);
+		unvaccinatedMortalityTextBox.setText((unvaccinatedMortality/unvaccinatedCounter)*100+"");
+		
+		bottomPanel.add(new JLabel("One Shot mortalty rate: "));
+		bottomPanel.add(oneShotMortalityTextBox);
+		oneShotMortalityTextBox.setEditable(false);
+		oneShotMortalityTextBox.setText((oneShotMortality/oneShotCounter)*100+"");
+		
+		bottomPanel.add(new JLabel("Two Shot mortalty rate: "));
+		bottomPanel.add(twoShotMortalityTextBox);
+		twoShotMortalityTextBox.setEditable(false);
+		twoShotMortalityTextBox.setText((twoShotMortality/twoShotCounter)*100+"");
+		
+		bottomPanel.add(new JLabel("Three Shot mortalty rate: "));
+		bottomPanel.add(threeShotMortalityTextBox);
+		threeShotMortalityTextBox.setEditable(false);
+		threeShotMortalityTextBox.setText((threeShotMortality/threeShotCounter)*100+"");
+		
+		bottomPanel.add(new JLabel("Natural mortalty rate: "));
+		bottomPanel.add(naturalMortalityTextBox);
+		naturalMortalityTextBox.setEditable(false);
+		naturalMortalityTextBox.setText((naturalMortality/naturalImmunityCounter)*100+"");
+		
 
 		
 		this.setVisible(true);

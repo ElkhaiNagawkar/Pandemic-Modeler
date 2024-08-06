@@ -50,7 +50,7 @@ public class Simulation_Frame extends JPanel
 		statsPanel.setLayout(new GridLayout(8,2,5,5));
 		statsPanel.add(new JLabel("Infected: "));
 		statsPanel.add(infectedTextBox);
-		statsPanel.add(new JLabel("Not Infected: "));
+		statsPanel.add(new JLabel("Unvaccinated: "));
 		statsPanel.add(unvaccinatedTextBox);
 		statsPanel.add(new JLabel("Dead: "));
 		statsPanel.add(deadTextBox);
@@ -60,7 +60,7 @@ public class Simulation_Frame extends JPanel
 		statsPanel.add(twoShotTextBox);
 		statsPanel.add(new JLabel("Three Shot: "));
 		statsPanel.add(threeShotTextBox);
-		statsPanel.add(new JLabel("Natural Immunity: "));
+		statsPanel.add(new JLabel("<html>Natural Immunity:<br/>(Recovered)</html>"));
 		statsPanel.add(naturalImmunityTextBox);
 		statsPanel.add(new JLabel("Reinfected: "));
 		statsPanel.add(reinfectedTextBox);
@@ -272,70 +272,8 @@ public class Simulation_Frame extends JPanel
 								personArr[i].setColor(Color.RED);
 								personArr[j].setInfected(true);
 								personArr[j].setColor(Color.RED);
-							}
-									  
-						}
-						
-						
-						
-						/*
-						 * if(personArr[i].getColor().equals(Color.RED) &&
-						 * personArr[j].getColor().equals(Color.BLUE)) { int chance =
-						 * (int)(Math.random()*10 + 1);
-						 * 
-						 * if(chance <= 8) { personArr[j].setColor(personArr[i].getColor());
-						 * personArr[j].setInfected(true); } }
-						 * if(personArr[j].getColor().equals(Color.RED) &&
-						 * personArr[i].getColor().equals(Color.BLUE)) { int chance =
-						 * (int)(Math.random()*10 + 1); if(chance <= 8) {
-						 * personArr[i].setColor(personArr[j].getColor());
-						 * personArr[i].setInfected(true); } }
-						 * 
-						 * if(personArr[i].getColor().equals(Color.RED) &&
-						 * personArr[j].getColor().equals(Color.CYAN)) { int chance =
-						 * (int)(Math.random()*10 + 1);
-						 * 
-						 * if(chance <= 6) { personArr[j].setColor(personArr[i].getColor()); } }
-						 * 
-						 * if(personArr[j].getColor().equals(Color.RED) &&
-						 * personArr[i].getColor().equals(Color.CYAN)) { int chance =
-						 * (int)(Math.random()*10 + 1); if(chance <= 6) {
-						 * personArr[i].setColor(personArr[j].getColor()); } }
-						 * 
-						 * if(personArr[i].getColor().equals(Color.RED) &&
-						 * personArr[j].getColor().equals(Color.YELLOW)) { int chance =
-						 * (int)(Math.random()*10 + 1);
-						 * 
-						 * if(chance <= 3) { personArr[j].setColor(personArr[i].getColor()); } }
-						 * 
-						 * if(personArr[j].getColor().equals(Color.RED) &&
-						 * personArr[i].getColor().equals(Color.YELLOW)) { int chance =
-						 * (int)(Math.random()*10 + 1); if(chance <= 3) {
-						 * personArr[i].setColor(personArr[j].getColor()); } }
-						 * 
-						 * if(personArr[i].getColor().equals(Color.RED) &&
-						 * personArr[j].getColor().equals(Color.MAGENTA)) { int chance =
-						 * (int)(Math.random()*10 + 1);
-						 * 
-						 * if(chance <= 1) { personArr[j].setColor(personArr[i].getColor()); } }
-						 * 
-						 * if(personArr[j].getColor().equals(Color.RED) &&
-						 * personArr[i].getColor().equals(Color.MAGENTA)) { int chance =
-						 * (int)(Math.random()*10 + 1); if(chance <= 1) {
-						 * personArr[i].setColor(personArr[j].getColor()); } }
-						 * 
-						 * if(personArr[i].getColor().equals(Color.RED) &&
-						 * personArr[j].getColor().equals(Color.GREEN)) { int chance =
-						 * (int)(Math.random()*10 + 1);
-						 * 
-						 * if(chance <= 4) { personArr[j].setColor(personArr[i].getColor()); } }
-						 * 
-						 * if(personArr[j].getColor().equals(Color.RED) &&
-						 * personArr[i].getColor().equals(Color.GREEN)) { int chance =
-						 * (int)(Math.random()*10 + 1); if(chance <= 4) {
-						 * personArr[i].setColor(personArr[j].getColor()); } }
-						 */		
-						
+							}		  
+						}			
 					}//end if
 				}//end inner loop
 			}//end outer loop			

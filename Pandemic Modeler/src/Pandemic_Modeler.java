@@ -75,7 +75,7 @@ public class Pandemic_Modeler extends JFrame
 					sim_frame.getContentPane().setBackground(Color.BLUE);
 					
 					simulation_frame = new Simulation_Frame(perNoVax, perOneVax, perTwoVax, perThreeVax, perNatural, perPop);
-					//create an ANONYMOUS object of the class and add the JPanel to the JFrame
+					
 					sim_frame.add(simulation_frame, BorderLayout.CENTER);
 					
 					startStopPanel = new JPanel();

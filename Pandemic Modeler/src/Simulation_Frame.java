@@ -60,7 +60,9 @@ public class Simulation_Frame extends JPanel
 		statsPanel.add(twoShotTextBox);
 		statsPanel.add(new JLabel("Three Shot: "));
 		statsPanel.add(threeShotTextBox);
-		statsPanel.add(new JLabel("<html>Natural Immunity:<br/>(Recovered)</html>"));
+
+		statsPanel.add(new JLabel("Natural Immunity:\n(recovered)"));
+
 		statsPanel.add(naturalImmunityTextBox);
 		statsPanel.add(new JLabel("Reinfected: "));
 		statsPanel.add(reinfectedTextBox);
@@ -158,28 +160,28 @@ public class Simulation_Frame extends JPanel
 			g.setColor(personArr[i].getColor());
 			g.fillOval(personArr[i].getxCoord(), personArr[i].getyCoord(), personArr[i].getDiam(), personArr[i].getDiam());
 						
-			if(personArr[i].getColor().equals(Color.RED)) {
+			if(personArr[i].isInfected()) {
 				infectedCounter++;
 				infectedTextBox.setText(infectedCounter+"");
 			}
 			
-			if(personArr[i].getImmunityStatus() == 1 && personArr[i].getColor().equals(Color.RED)) {
+			if(personArr[i].getImmunityStatus() == 1 && personArr[i].isInfected()) {
 				unvaccinatedCounter++;
 				unvaccinatedTextBox.setText(unvaccinatedCounter+"");
 			}
-			else if(personArr[i].getColor().equals(Color.BLACK)) {
+			else if(!personArr[i].getIsAlive()) {
 				deadCounter++;
 				deadTextBox.setText(deadCounter+"");
 			}
-			else if(personArr[i].getImmunityStatus() == 2 && personArr[i].getColor().equals(Color.RED)) {
+			else if(personArr[i].getImmunityStatus() == 2 && personArr[i].isInfected()) {
 				oneShotCounter++;
 				oneShotTextBox.setText(oneShotCounter+"");
 			}
-			else if(personArr[i].getImmunityStatus() == 4 && personArr[i].getColor().equals(Color.RED)) {
+			else if(personArr[i].getImmunityStatus() == 4 && personArr[i].isInfected()) {
 				twoShotCounter++;
 				twoShotTextBox.setText(twoShotCounter+"");
 			}
-			else if(personArr[i].getImmunityStatus() == 5 && personArr[i].getColor().equals(Color.RED)) {
+			else if(personArr[i].getImmunityStatus() == 5 && personArr[i].isInfected()) {
 				threeShotCounter++;
 				threeShotTextBox.setText(threeShotCounter+"");
 			}
@@ -188,14 +190,11 @@ public class Simulation_Frame extends JPanel
 				naturalImmunityTextBox.setText(naturalImmunityCounter+"");
 			}
 			
-			if(personArr[i].getHasBeenInfected() && personArr[i].getColor().equals(Color.RED)) {
+			if(personArr[i].getHasBeenInfected() && personArr[i].isInfected()) {
 				reinfectedCounter++;
 				reinfectedTextBox.setText(reinfectedCounter+"");
 			}
-			
-			
 		}//draw circle
-
 	}
 	
 	private class BounceListener implements ActionListener{
@@ -298,6 +297,8 @@ public class Simulation_Frame extends JPanel
 		}
 	}
 	
+	//This lister runs to check if there are infected and increase their counter if there are.
+	//Also if the cycle is at 150 set person to died or recovered
 	private class InfectedListener implements ActionListener{
 
 		@Override

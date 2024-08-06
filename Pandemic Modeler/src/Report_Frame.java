@@ -6,6 +6,8 @@
  */
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
+
 import javax.swing.*;
 
 public class Report_Frame extends JFrame{
@@ -81,40 +83,40 @@ public class Report_Frame extends JFrame{
 			}
 		}//End For loop
 		
-		
+		DecimalFormat df = new DecimalFormat("#.##");
 		topPanel.add(new JLabel("% of population that is infected: "));
 		topPanel.add(infectedTextBox);
-		infectedTextBox.setText((infectedCounter/personArr.length)*100+"");
+		infectedTextBox.setText(df.format((infectedCounter/personArr.length)*100));
 		infectedTextBox.setEditable(false);
 		
 		topPanel.add(new JLabel("% of unvaccinated that is infected: "));
 		topPanel.add(unvaccinatedTextBox);
-		unvaccinatedTextBox.setText((unvaccinatedCounter/personArr.length)*100+"");
+		unvaccinatedTextBox.setText(df.format((unvaccinatedCounter/personArr.length)*100));
 		unvaccinatedTextBox.setEditable(false);
 
 		topPanel.add(new JLabel("% of one-shot-vaccinated that is infected: "));
 		topPanel.add(oneShotTextBox);
-		oneShotTextBox.setText((oneShotCounter/personArr.length)*100+"");
+		oneShotTextBox.setText(df.format((oneShotCounter/personArr.length)*100));
 		oneShotTextBox.setEditable(false);
 		
 		topPanel.add(new JLabel("% of two-shot-vaccinated that is infected: "));
 		topPanel.add(twoShotTextBox);
-		twoShotTextBox.setText((twoShotCounter/personArr.length)*100+"");
+		twoShotTextBox.setText(df.format((twoShotCounter/personArr.length)*100));
 		twoShotTextBox.setEditable(false);
 		
 		topPanel.add(new JLabel("% of three-shot-vaccinated that is infected: "));
 		topPanel.add(threeShotTextBox);
-		threeShotTextBox.setText((threeShotCounter/personArr.length)*100+"");
+		threeShotTextBox.setText(df.format((threeShotCounter/personArr.length)*100));
 		threeShotTextBox.setEditable(false);
 		
 		topPanel.add(new JLabel("% of naturally immune that got re-infected: "));
 		topPanel.add(naturalImmunityTextBox);
-		naturalImmunityTextBox.setText((naturalImmunityCounter/personArr.length)*100+"");
+		naturalImmunityTextBox.setText(df.format((naturalImmunityCounter/personArr.length)*100));
 		naturalImmunityTextBox.setEditable(false);
 		
 		topPanel.add(new JLabel("% of population that recovered: "));
 		topPanel.add(recoveredTextBox);
-		recoveredTextBox.setText((recoveredCounter/personArr.length)*100+"");
+		recoveredTextBox.setText(df.format((recoveredCounter/personArr.length)*100));
 		recoveredTextBox.setEditable(false); 
 		
 		for(int i=0;i<personArr.length;i++) {
@@ -159,32 +161,30 @@ public class Report_Frame extends JFrame{
 			}
 		}
 
-		
-		
 		bottomPanel.add(new JLabel("Unvaccinated mortalty rate: "));
 		bottomPanel.add(unvaccinatedMortalityTextBox);
 		unvaccinatedMortalityTextBox.setEditable(false);
-		unvaccinatedMortalityTextBox.setText((unvaccinatedMortality/unvaccinatedCounter)*100+"");
+		unvaccinatedMortalityTextBox.setText(df.format((unvaccinatedMortality/unvaccinatedCounter)*100));
 		
 		bottomPanel.add(new JLabel("One Shot mortalty rate: "));
 		bottomPanel.add(oneShotMortalityTextBox);
 		oneShotMortalityTextBox.setEditable(false);
-		oneShotMortalityTextBox.setText((oneShotMortality/oneShotCounter)*100+"");
+		oneShotMortalityTextBox.setText(df.format((oneShotMortality/oneShotCounter)*100));
 		
 		bottomPanel.add(new JLabel("Two Shot mortalty rate: "));
 		bottomPanel.add(twoShotMortalityTextBox);
 		twoShotMortalityTextBox.setEditable(false);
-		twoShotMortalityTextBox.setText((twoShotMortality/twoShotCounter)*100+"");
+		twoShotMortalityTextBox.setText(df.format((twoShotMortality/twoShotCounter)*100));
 		
 		bottomPanel.add(new JLabel("Three Shot mortalty rate: "));
 		bottomPanel.add(threeShotMortalityTextBox);
 		threeShotMortalityTextBox.setEditable(false);
-		threeShotMortalityTextBox.setText((threeShotMortality/threeShotCounter)*100+"");
+		threeShotMortalityTextBox.setText(df.format((threeShotMortality/threeShotCounter)*100));
 		
 		bottomPanel.add(new JLabel("Natural mortalty rate: "));
 		bottomPanel.add(naturalMortalityTextBox);
 		naturalMortalityTextBox.setEditable(false);
-		naturalMortalityTextBox.setText((naturalMortality/naturalImmunityCounter)*100+"");
+		naturalMortalityTextBox.setText(df.format((naturalMortality/naturalImmunityCounter)*100));
 		
 
 		

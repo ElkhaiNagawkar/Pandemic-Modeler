@@ -50,10 +50,14 @@ public class Pandemic_Modeler extends JFrame
 		public void actionPerformed(ActionEvent e)
 		{
 			if(e.getSource().equals(submitButton)) {
-				String boxValue = (String)populationBox.getSelectedItem();				
+				String boxValue = (String)populationBox.getSelectedItem();		
 				//Try checking if the box value is a number
 				try {
+					//exception will be thrown if number is less or is 0 and if it is not a number
 					perPop = Integer.parseInt(boxValue);
+					if(perPop <= 0) {
+						throw new Exception();
+					}
 					
 					int checkPercentage = perNoVax + perOneVax + perTwoVax + perThreeVax + perNatural;
 					//Check if percentage does not equal 100. If it does not equal 100 it means more percent needs to be added
@@ -99,7 +103,7 @@ public class Pandemic_Modeler extends JFrame
 					setVisible(false);
 					//Catch if box value is not a number
 				}catch(Exception ex) {
-					JOptionPane.showMessageDialog(errorPane, "Please enter a number!");
+					JOptionPane.showMessageDialog(errorPane, "Please enter a number! or a number above 0");
 				}
 			}			
 		}	
@@ -107,7 +111,7 @@ public class Pandemic_Modeler extends JFrame
 	
 	private class SliderListener implements ChangeListener{
 
-		@Override
+		@Override //This is used to get listen for the slider changes
 		public void stateChanged(ChangeEvent e)
 		{
 			perNoVax = noVaxSlider.getValue();
@@ -125,10 +129,17 @@ public class Pandemic_Modeler extends JFrame
 		
 	}
 	
+	/*
+	 * Name: buildPercentagePanel()
+	 * Purpose: this method builds a panel that holds all the percent sliders
+	 * Accepts: nothing
+	 * Returns: nothing 
+	 */
 	public void buildPercentagePanel() {
 		percentagePanel = new JPanel();
 		percentagePanel.setLayout(new GridLayout(10, 1, 0, 10));
 		
+		//calling a method to build the actual sliders. Then add to the panel
 		buildSlidersAndLables();
 		
 		percentagePanel.add(noVaxLabel);
@@ -147,6 +158,13 @@ public class Pandemic_Modeler extends JFrame
 		percentagePanel.add(naturalImmSlider);
 	}
 	
+	/*
+	 * Name: buildPopulationPanel()
+	 * Purpose: this method builds a panel that creates a JComboBox that holds a predetermined number of population
+	 * 					or one received by the user
+	 * Accepts: nothing
+	 * Returns: nothing 
+	 */
 	public void buildPopulationPanel() {
 		populationSizePanel = new JPanel();
 		populationSizePanel.setLayout(new GridLayout(3, 1, 10, 50));
@@ -168,6 +186,13 @@ public class Pandemic_Modeler extends JFrame
 		populationSizePanel.add(submitButton);
 	}
 	
+	
+	/*
+	 * Name: buildSlidersAndLables()
+	 * Purpose: This method is what actually builds the sliders and its corresponding JLabels. This method is called in buildPercentagePanel()
+	 * Accepts: nothing
+	 * Returns: nothing 
+	 */
 	public void buildSlidersAndLables() {
 		noVaxSlider = new JSlider(JSlider.HORIZONTAL,0,100,0);
 		noVaxSlider.setMajorTickSpacing(10);
@@ -223,15 +248,19 @@ public class Pandemic_Modeler extends JFrame
 	
 	public class StartStopAboutListener implements ActionListener {
 
-		@Override
+		@Override//This is used to listen to the start, stop and about buttons
 		public void actionPerformed(ActionEvent e)
 		{
+			//create timers
 			Timer time;
 			Timer infectedTimer;
 			Timer stopTimer;
 			
+			//if start button
 			if(e.getActionCommand().equals("Start")) {
+				//if the timer is stopped only then execute this (stop = true)
 				if(stop) {
+					//get time from simulation_frame, start it and set it again.
 					time = simulation_frame.getTime();
 					time.start();
 					simulation_frame.setTime(time);
@@ -244,11 +273,14 @@ public class Pandemic_Modeler extends JFrame
 					stopTimer.start();
 					simulation_frame.setStopTimer(stopTimer);
 					
+					//flip flag
 					stop = false;
 				}
+				//if stop button
 			}else if(e.getActionCommand().equals("Stop"))
 			{
-				if(!stop) {				
+				//only if simulation if currently running run this logic (stop = false)
+				if(!stop) {	
 					time = simulation_frame.getTime();
 					time.stop();
 					simulation_frame.setTime(time);
@@ -264,7 +296,9 @@ public class Pandemic_Modeler extends JFrame
 					stop = true;
 				}
 			}
+			//otherwise about was clicked
 			else {
+				//create new About_Frame
 				new About_Frame();
 			}
 		}

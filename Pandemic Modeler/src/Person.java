@@ -24,6 +24,7 @@ public class Person
 	private int immunityStatus;
 	private boolean isAlive;
 	private boolean isInfected;
+	//This variable means if a person has been re-infected after recovering
 	private boolean hasBeenInfected;
 	private int cycleCounter;
 
